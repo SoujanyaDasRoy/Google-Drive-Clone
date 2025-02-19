@@ -2,18 +2,29 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import StorageProgress from "@/components/StorageProgress";
-
 
 const Sidebar = () => {
-    const [selectedItem, setSelectedItem] = useState('home'); // Track which item is selected
-    const [expandedItem, setExpandedItem] = useState({
-        'my-drive': false,
+    const [selectedItem, setSelectedItem] = useState('my-drive');
+    const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({
+        'my-drive': false,  
         'computers': false
     });
+    
+    const usedStorage = 4.15;
+    const totalStorage = 15;
+    const storagePercentage = (usedStorage / totalStorage) * 100;
+
+    const toggleExpand = (itemId: string, e: React.MouseEvent) => {
+        e.stopPropagation();
+        setExpandedItems(prev => ({
+            ...prev,
+            [itemId]: !prev[itemId]
+        }));
+    };
 
     return (
-        <div className="w-64 border-r flex flex-col h-screen sidebar">
+        <div className="w-64 flex flex-col h-screen sidebar">
+            {/* Drive Logo and Title */}
             <div className="p-4 flex flex-row gap-2">
                 <Image
                     src="/google-drive-logo.png"
@@ -24,8 +35,9 @@ const Sidebar = () => {
                 <span className="text-2xl mt-1">Drive</span>
             </div>
 
+            {/* New Button */}
             <div className="p-4 mt-[-12] items-center">
-                <button className="bg-white hover:bg-[#edf1fa] w-24 rounded-2xl shadow-md items-center flex gap-2 px-4 py-4">
+                <button className="bg-white hover:bg-[#edf1fa] w-24 rounded-2xl shadow-md items-center flex gap-2 px-4 py-3">
                     <Image
                         src="/plus.svg"
                         alt="Plus"
@@ -37,197 +49,210 @@ const Sidebar = () => {
                 </button>
             </div>
 
-            <div className="flex flex-col px-4 py-1">
-                <button
-                    onClick={() => setSelectedItem('home')}
-                    className={`w-full rounded-full ${selectedItem === 'home' ? 'bg-[#c2e7ff]' : 'hover:bg-[#e7e8eb]'}`}
-                >
-                    <div className="flex gap-2 py-1 px-6">
-                        <Image
-                            src={selectedItem === 'home' ? "/home-active.svg" : "/home-dark.svg"}
-                            alt="Home"
-                            height={20}
-                            width={20}
-                        />
-                        <span className="text-sm mt-1">Home</span>
+            {/* Original Sidebar Content */}
+            <div className="mx-2 my-2">
+                <div className="flex flex-col space-y-1 mt-4 mb-6">
+                    <SidebarItem 
+                        id="home"
+                        label="Home"
+                        icon="/home-dark.svg"
+                        activeIcon="/home-active.svg"
+                        selected={selectedItem === 'home'}
+                        onClick={() => setSelectedItem('home')}
+                        expandable={false}
+                    />
+                    
+                    <ExpandableSidebarItem 
+                        id="my-drive"
+                        label="My Drive"
+                        icon="/my-drive-dark.svg"
+                        activeIcon="/my-drive-active.svg"
+                        selected={selectedItem === 'my-drive'}
+                        expanded={expandedItems['my-drive']}
+                        onClick={() => setSelectedItem('my-drive')}
+                        onToggleExpand={(e) => toggleExpand('my-drive', e)}
+                    />
+                    
+                    <ExpandableSidebarItem 
+                        id="computers"
+                        label="Computers"
+                        icon="/computers-dark.svg"
+                        activeIcon="/computers-active.svg"
+                        selected={selectedItem === 'computers'}
+                        expanded={expandedItems['computers']}
+                        onClick={() => setSelectedItem('computers')}
+                        onToggleExpand={(e) => toggleExpand('computers', e)}
+                    />
+                </div>
+                
+                <div className="flex flex-col space-y-1 mb-6">
+                    <SidebarItem 
+                        id="shared-with-me"
+                        label="Shared with me"
+                        icon="/shared-with-me-dark.svg"
+                        activeIcon="/shared-with-me-active.svg"
+                        selected={selectedItem === 'shared-with-me'}
+                        onClick={() => setSelectedItem('shared-with-me')}
+                        expandable={false}
+                    />
+                    
+                    <SidebarItem 
+                        id="recent"
+                        label="Recent"
+                        icon="/recent-dark.svg"
+                        activeIcon="/recent-active.svg"
+                        selected={selectedItem === 'recent'}
+                        onClick={() => setSelectedItem('recent')}
+                        expandable={false}
+                    />
+                    
+                    <SidebarItem 
+                        id="starred"
+                        label="Starred"
+                        icon="/starred-dark.svg"
+                        activeIcon="/starred-active.svg"
+                        selected={selectedItem === 'starred'}
+                        onClick={() => setSelectedItem('starred')}
+                        expandable={false}
+                    />
+                </div>
+                
+                <div className="flex flex-col space-y-1 mb-6">
+                    <SidebarItem 
+                        id="spam"
+                        label="Spam"
+                        icon="/spam-dark.svg"
+                        activeIcon="/spam-active.svg"
+                        selected={selectedItem === 'spam'}
+                        onClick={() => setSelectedItem('spam')}
+                        expandable={false}
+                    />
+                    
+                    <SidebarItem 
+                        id="trash"
+                        label="Trash"
+                        icon="/trash-dark.svg"
+                        activeIcon="/trash-active.svg"
+                        selected={selectedItem === 'trash'}
+                        onClick={() => setSelectedItem('trash')}
+                        expandable={false}
+                    />
+                    
+                    <SidebarItem 
+                        id="storage"
+                        label="Storage"
+                        icon="/storage-dark.svg"
+                        activeIcon="/storage-active.svg"
+                        selected={selectedItem === 'storage'}
+                        onClick={() => setSelectedItem('storage')}
+                        expandable={false}
+                    />
+                </div>
+                
+                {/* Storage progress bar */}
+                <div className="px-6 mt-2">
+                    <div className="h-1 w-full bg-gray-200 rounded-full">
+                        <div 
+                            className="h-1 bg-blue-600 rounded-full" 
+                            style={{ width: `${storagePercentage}%` }}
+                        ></div>
                     </div>
-                </button>
-
-                <button
-                    onClick={() => setSelectedItem('my-drive')}
-                    className={`w-full rounded-full ${selectedItem === 'my-drive' ? 'bg-[#c2e7ff]' : 'hover:bg-[#e7e8eb]'}`}
-                >
-                    <div className="flex gap-2 py-1 px-6">
-                        {/*<button onClick={() => setExpandedItem()}>*/}
-                        {/*    <Image*/}
-                        {/*        src={expandedItem ? '/arrow-expanded.svg' : '/arrow-collapsed.svg'}*/}
-                        {/*        alt="Arrow"*/}
-                        {/*        width={20}*/}
-                        {/*        height={20}*/}
-                        {/*    />*/}
-                        {/*</button>*/}
-                        <Image
-                            src={selectedItem === 'my-drive' ? "/my-drive-active.svg" : "/my-drive-dark.svg"}
-                            alt="My Drive"
-                            height={20}
-                            width={20}
-                        />
-                        <span className="text-sm mt-1">My Drive</span>
-                    </div>
-                </button>
-
-                <button
-                    onClick={() => setSelectedItem('computers')}
-                    className={`w-full rounded-full ${selectedItem === 'computers' ? 'bg-[#c2e7ff]' : 'hover:bg-[#e7e8eb]'}`}
-                >
-                    <div className="flex gap-2 py-1 px-6">
-                        {/*<button onClick={() => setExpandedItem(!expandedItem)}>*/}
-                        {/*    <Image*/}
-                        {/*        src={expandedItem ? '/arrow-expanded.svg' : '/arrow-collapsed.svg'}*/}
-                        {/*        alt="Arrow"*/}
-                        {/*        width={20}*/}
-                        {/*        height={20}*/}
-                        {/*    />*/}
-                        {/*</button>*/}
-                        <Image
-                            src={selectedItem === 'computers' ? "/computers-active.svg" : "/computers-dark.svg"}
-                            alt="Computers"
-                            height={20}
-                            width={20}
-                        />
-                        <span className="text-sm mt-1">Computers</span>
-                    </div>
-                </button>
-            </div>
-
-            <br />
-
-            <div className="flex flex-col px-4 py-1">
-                <button
-                    onClick={() => setSelectedItem('shared-with-me')}
-                    className={`w-full rounded-full ${selectedItem === 'shared-with-me' ? 'bg-[#c2e7ff]' : 'hover:bg-[#e7e8eb]'}`}
-                >
-                    <div className="flex gap-2 py-1 px-6">
-                        <Image
-                            src={selectedItem === 'shared-with-me' ? "/shared-with-me-active.svg" : "/shared-with-me-dark.svg"}
-                            alt="Shared with Me"
-                            height={20}
-                            width={20}
-                        />
-                        <span className="text-sm mt-1">Shared with me</span>
-                    </div>
-                </button>
-
-                <button
-                    onClick={() => setSelectedItem('recent')}
-                    className={`w-full rounded-full ${selectedItem === 'recent' ? 'bg-[#c2e7ff]' : 'hover:bg-[#e7e8eb]'}`}
-                >
-                    <div className="flex gap-2 py-1 px-6">
-                        {/*<button onClick={() => setExpandedItem()}>*/}
-                        {/*    <Image*/}
-                        {/*        src={expandedItem ? '/arrow-expanded.svg' : '/arrow-collapsed.svg'}*/}
-                        {/*        alt="Arrow"*/}
-                        {/*        width={20}*/}
-                        {/*        height={20}*/}
-                        {/*    />*/}
-                        {/*</button>*/}
-                        <Image
-                            src={selectedItem === 'recent' ? "/recent-active.svg" : "/recent-dark.svg"}
-                            alt="My Drive"
-                            height={20}
-                            width={20}
-                        />
-                        <span className="text-sm mt-1">Recent</span>
-                    </div>
-                </button>
-
-                <button
-                    onClick={() => setSelectedItem('starred')}
-                    className={`w-full rounded-full ${selectedItem === 'starred' ? 'bg-[#c2e7ff]' : 'hover:bg-[#e7e8eb]'}`}
-                >
-                    <div className="flex gap-2 py-1 px-6">
-                        {/*<button onClick={() => setExpandedItem(!expandedItem)}>*/}
-                        {/*    <Image*/}
-                        {/*        src={expandedItem ? '/arrow-expanded.svg' : '/arrow-collapsed.svg'}*/}
-                        {/*        alt="Arrow"*/}
-                        {/*        width={20}*/}
-                        {/*        height={20}*/}
-                        {/*    />*/}
-                        {/*</button>*/}
-                        <Image
-                            src={selectedItem === 'starred' ? "/starred-active.svg" : "/starred-dark.svg"}
-                            alt="Computers"
-                            height={20}
-                            width={20}
-                        />
-                        <span className="text-sm mt-1">Starred</span>
-                    </div>
-                </button>
-            </div>
-
-            <br />
-
-            <div className="flex flex-col px-4 py-1">
-                <button
-                    onClick={() => setSelectedItem('spam')}
-                    className={`w-full rounded-full ${selectedItem === 'spam' ? 'bg-[#c2e7ff]' : 'hover:bg-[#e7e8eb]'}`}
-                >
-                    <div className="flex gap-2 py-1 px-6">
-                        <Image
-                            src={selectedItem === 'spam' ? "/spam-active.svg" : "/spam-dark.svg"}
-                            alt="Home"
-                            height={20}
-                            width={20}
-                        />
-                        <span className="text-sm mt-1">Spam</span>
-                    </div>
-                </button>
-
-                <button
-                    onClick={() => setSelectedItem('trash')}
-                    className={`w-full rounded-full ${selectedItem === 'trash' ? 'bg-[#c2e7ff]' : 'hover:bg-[#e7e8eb]'}`}
-                >
-                    <div className="flex gap-2 py-1 px-6">
-                        {/*<button onClick={() => setExpandedItem()}>*/}
-                        {/*    <Image*/}
-                        {/*        src={expandedItem ? '/arrow-expanded.svg' : '/arrow-collapsed.svg'}*/}
-                        {/*        alt="Arrow"*/}
-                        {/*        width={20}*/}
-                        {/*        height={20}*/}
-                        {/*    />*/}
-                        {/*</button>*/}
-                        <Image
-                            src={selectedItem === 'trash' ? "/trash-active.svg" : "/trash-dark.svg"}
-                            alt="Trash"
-                            height={20}
-                            width={20}
-                        />
-                        <span className="text-sm mt-1">Trash</span>
-                    </div>
-                </button>
-
-                <button
-                    onClick={() => setSelectedItem('storage')}
-                    className={`w-full rounded-full ${selectedItem === 'storage' ? 'bg-[#c2e7ff]' : 'hover:bg-[#e7e8eb]'}`}
-                >
-                    <div className="flex gap-2 py-1 px-6">
-                        <Image
-                            src={selectedItem === 'storage' ? "/storage-active.svg" : "/storage-dark.svg"}
-                            alt="Storage"
-                            height={20}
-                            width={20}
-                        />
-                        <span className="text-sm mt-1">Storage</span>
-                    </div>
-                </button>
-            </div>
-
-            {/*<StorageProgress />*/}
-            <div className="">
-                <button className="text-sm rounded-full p-2 ml-10 mt-4 border-2 border-[#8e9190] text-[#0b57d0] hover:bg-[#e6edfa] px-8 py-2">Get more storage</button>
+                    <p className="text-sm text-gray-700 mt-1">{usedStorage} GB of {totalStorage} GB used</p>
+                    
+                    <button className="mt-4 w-full text-sm rounded-full py-2 px-4 text-blue-600 border border-gray-300 hover:bg-blue-50 transition-colors">
+                        Get more storage
+                    </button>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
+
+const SidebarItem = ({ id, label, icon, activeIcon, selected, onClick, expandable }: { 
+    id: string, 
+    label: string, 
+    icon: string, 
+    activeIcon: string, 
+    selected: boolean, 
+    onClick: () => void, 
+    expandable: boolean 
+}) => {
+    return (
+        <button
+            onClick={onClick}
+            className={`w-full rounded-full sidebar-item ${selected ? 'active' : ''}`}
+        >
+            <div className="flex items-center gap-2 py-1 px-6">
+                <Image
+                    src={selected ? activeIcon : icon}
+                    alt={label}
+                    height={20}
+                    width={20}
+                />
+                
+                <span className={`text-sm mt-1 ${selected ? "font-medium" : "font-normal"}`}>
+                    {label}
+                </span>
+            </div>
+        </button>
+    );
+};
+
+const ExpandableSidebarItem = ({ 
+    id, 
+    label, 
+    icon, 
+    activeIcon, 
+    selected, 
+    expanded,
+    onClick, 
+    onToggleExpand 
+}: { 
+    id: string, 
+    label: string, 
+    icon: string, 
+    activeIcon: string, 
+    selected: boolean,
+    expanded: boolean,
+    onClick: () => void,
+    onToggleExpand: (e: React.MouseEvent) => void
+}) => {
+    return (
+        <div className="relative">
+            <button
+                onClick={onClick}
+                className={`w-full rounded-full sidebar-item ${selected ? 'active' : ''}`}
+            >
+                <div className="flex items-center gap-2 py-1 px-6">
+                    <div 
+                        className="absolute left-2 flex items-center justify-center w-4 h-4 cursor-pointer"
+                        onClick={onToggleExpand}
+                    >
+                        <span className={`transition-transform duration-200 ${expanded ? 'transform rotate-90' : ''}`}>
+                            <Image src="/arrow-collapsed.svg" alt="Arrow" height={20} width={20} />
+                        </span>
+                    </div>
+                    
+                    <Image
+                        src={selected ? activeIcon : icon}
+                        alt={label}
+                        height={20}
+                        width={20}
+                    />
+                    
+                    <span className={`text-sm mt-1 ${selected ? "font-medium" : "font-normal"}`}>
+                        {label}
+                    </span>
+                </div>
+            </button>
+            
+            {expanded && (
+                <div className="pl-10 mt-1">
+                    <div className="text-sm text-gray-500 py-1">No items</div>
+                </div>
+            )}
+        </div>
+    );
+};
 
 export default Sidebar;

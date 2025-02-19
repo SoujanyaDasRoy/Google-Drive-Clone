@@ -5,12 +5,20 @@
 :root {
   --background-main: #ffffff;
   --background-sidebar: #f8fafd;
+  --sidebar-item-hover: #e7e8eb;
+  --sidebar-item-active: #c2e7ff;
+  --sidebar-item-text: #253232;
+  --sidebar-item-text-active: #006ab9;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background-main: #131314;
     --background-sidebar: #1b1b1b;
+    --sidebar-item-hover: #2b2b2b;
+    --sidebar-item-active: #004a77;
+    --sidebar-item-text: #e3e3e3;
+    --sidebar-item-text-active: #9dcce9;
   }
 }
 
@@ -21,6 +29,19 @@ body {
 
 .sidebar {
   background: var(--background-sidebar);
+}
+
+.sidebar-item {
+  color: var(--sidebar-item-text);
+}
+
+.sidebar-item:hover {
+  background: var(--sidebar-item-hover);
+}
+
+.sidebar-item.active {
+  background: var(--sidebar-item-active);
+  color: var(--sidebar-item-text-active);
 }
 
 @layer base {
