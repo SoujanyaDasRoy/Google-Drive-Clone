@@ -14,8 +14,8 @@ const Content = () => {
   const [driveItems, setDriveItems] = useState<DriveItemType[]>([]);
 
   useEffect(() => {
-    // Simulating fetching data
-    fetch("/data.json") // Make sure to store your JSON file in the public directory
+    
+    fetch("/data.json") 
       .then((res) => res.json())
       .then((data) => setDriveItems(data.files));
   }, []);
