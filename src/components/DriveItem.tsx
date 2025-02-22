@@ -1,4 +1,3 @@
-// components/DriveItem.tsx
 import { Folder, FileText } from "lucide-react";
 
 type DriveItemProps = {
@@ -8,7 +7,7 @@ type DriveItemProps = {
   lastModified?: string;
 };
 
-export default function DriveItem({ name, type, size, lastModified }: DriveItemProps) {
+export default function DriveItem({ name, type, size = "-", lastModified = "-" }: DriveItemProps) {
   return (
     <div className="flex justify-between p-2 border-b cursor-pointer hover:bg-gray-100">
       <div className="flex items-center gap-2">
