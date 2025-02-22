@@ -1,3 +1,4 @@
+import MyDrive from "@/components/MyDrive";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import SidePanel from "@/components/SidePanel";
@@ -12,8 +13,8 @@ const Home = () => {
       <div className="flex-1 flex flex-col">
         <Navbar />
         <div className="flex-1 p-4 bg-gray-50 flex flex-row gap-4">
-          <div className="flex-1 bg-white rounded-xl p-4">
-            Content
+          <div className="flex-1 bg-white rounded-xl p-4 mt-[-16]">
+            <MyDrive />
           </div>
           <div className="w-8">
             <SidePanel />

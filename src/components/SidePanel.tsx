@@ -3,50 +3,71 @@ import Image from 'next/image';
 
 const SidePanel = () => {
   return (
-    <div className="bg-[#f8fafd] flex flex-col w-10"> {/* Added w-16 class */}
-      {/* Top icons section */}
-      <div className="flex flex-col items-center space-y-4 mb-auto">
-        {/* First icon (colorful square) */}
-        <div className="w-10 h-10 flex items-center justify-center cursor-pointer">
-          <div className="w-8 h-8 rounded-sm bg-gray-200">
-            {/* Placeholder for your first SVG */}
+    <div className="flex flex-col w-8 py-2 items-center justify-center">
+      {/* Top icons section with original spacing */}
+      <div className="flex flex-col items-center space-y-4">
+        {/* Calendar icon */}
+        <div className="w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded-full">
+          <div className="w-5 h-5 relative">
+            <Image
+              src="https://www.gstatic.com/companion/icon_assets/calendar_2020q4_2x.png"
+              alt="Calendar"
+              fill
+              className="object-contain"
+            />
           </div>
         </div>
         
-        {/* Second icon (yellow box with person) */}
-        <div className="w-10 h-10 flex items-center justify-center cursor-pointer">
-          <div className="w-6 h-6 rounded-sm bg-gray-200">
-            {/* Placeholder for your second SVG */}
+        {/* Keep icon */}
+        <div className="w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded-full">
+          <div className="w-5 h-5 relative">
+            <Image
+              src="https://www.gstatic.com/companion/icon_assets/keep_2020q4v3_2x.png"
+              alt="Keep"
+              fill
+              className="object-contain"
+            />
           </div>
         </div>
         
-        {/* Third icon (blue checkmark circle) */}
-        <div className="w-10 h-10 flex items-center justify-center cursor-pointer">
-          <div className="w-6 h-6 rounded-full bg-gray-200">
-            {/* Placeholder for your third SVG */}
+        {/* Tasks icon */}
+        <div className="w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded-full">
+          <div className="w-5 h-5 relative">
+            <Image
+              src="https://www.gstatic.com/companion/icon_assets/tasks_2021_2x.png"
+              alt="Tasks"
+              fill
+              className="object-contain"
+            />
           </div>
         </div>
         
-        {/* Fourth icon (blue person) */}
-        <div className="w-10 h-10 flex items-center justify-center cursor-pointer">
-          <div className="w-6 h-6 rounded-sm bg-gray-200">
-            {/* Placeholder for your fourth SVG */}
+        {/* Contacts icon */}
+        <div className="w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded-full">
+          <div className="w-5 h-5 relative">
+            <Image
+              src="https://www.gstatic.com/companion/icon_assets/contacts_2022_2x.png"
+              alt="Contacts"
+              fill
+              className="object-contain"
+            />
           </div>
         </div>
       </div>
+
+      {/* Border line with its own spacing */}
+      <div className="w-4 border-b border-gray-200 mt-6 mb-4"></div>
       
       {/* Bottom section with plus button */}
-      <div className="mb-auto flex flex-col items-center">
-        <button className="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100">
-          <span className="text-xl">+</span>
+      <div className="flex flex-col items-center">
+        <button className="w-10 h-10 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-100">
+          <Image 
+            src="/plus.svg"
+            alt="Add On"
+            width={20}
+            height={20}
+          />
         </button>
-      </div>
-      
-      {/* Collapse/Expand arrow at bottom */}
-      <div className="mt-auto flex items-center justify-center w-full h-8 cursor-pointer hover:bg-gray-100">
-        <div className="w-5 h-5 flex items-center justify-center text-gray-400">
-          <span>&gt;</span>
-        </div>
       </div>
     </div>
   );
