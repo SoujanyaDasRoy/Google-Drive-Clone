@@ -1,8 +1,10 @@
+import React from "react";
+import LayoutButtons from "@/components/LayoutButtons";
 import MyDrive from "@/components/MyDrive";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import SidePanel from "@/components/SidePanel";
-import React from "react";
+import Image from "next/image"
 
 const Home = () => {
   return (
@@ -14,7 +16,18 @@ const Home = () => {
         <Navbar />
         <div className="flex-1 p-4 bg-gray-50 flex flex-row gap-4">
           <div className="flex-1 bg-white rounded-xl p-4 mt-[-16]">
-            <MyDrive />
+            <div className="flex justify-between items-center mb-4">
+              <MyDrive />
+              <div className="flex flex-row gap-2 mx-4">
+                <LayoutButtons /> 
+                <Image 
+                  src="/view-details.svg"
+                  alt="View Details"
+                  width={20}
+                  height={20}
+                />
+              </div>
+            </div>
           </div>
           <div className="w-8">
             <SidePanel />
