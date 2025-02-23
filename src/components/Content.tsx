@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DriveItem from "./DriveItem";
+// import DriveItem from "./DriveItem";
 import { Folder, FileText, User } from "lucide-react";
 
 type DriveItemType = {
